@@ -12,22 +12,33 @@ A modern, high-performance trading platform API built with Node.js, TypeScript, 
 - **Database Integration**: PostgreSQL with Prisma ORM for reliable data persistence
 - **Docker Support**: Easy local development setup with containerized database
 - **API Documentation**: Interactive API documentation with Swagger UI
-- **Clean Architecture**: Follows SOLID principles and clean code practices
 
 ## 🏗️ Architecture
 
-The project follows a clean, layered architecture:
+The project follows a clean, modular, and layered architecture:
 
 ```
 src/
-├── controllers/    # Request handlers and response formatting
-├── entities/       # Domain entities and types
-├── repository/     # Data access layer
-├── routes/         # API route definitions
-├── schemas/        # Request/Response validation schemas
-├── services/       # Business logic implementation
-└── utils/         # Shared utilities and helpers
+├── controllers/     # Handle HTTP requests and responses for each resource
+├── entities/        # Domain entities and type definitions
+├── repositories/    # Data access layer for database operations
+├── routes/          # API route definitions and endpoint registration
+├── schemas/         # Request and response validation schemas (Zod)
+├── services/        # Business logic and application services
+├── utils/           # Shared utilities, helpers, and constants
+├── generated/       # Auto-generated code (e.g., Prisma client)
+└── index.ts         # Application entry point
 ```
+
+- `controllers/`: Contains controllers for each resource (e.g., orders, instruments, portfolio).
+- `entities/`: Defines core business entities and types.
+- `repositories/`: Implements data access logic for each entity, using Prisma ORM.
+- `routes/`: Registers API endpoints and connects them to controllers.
+- `schemas/`: Defines Zod schemas for validating incoming requests and outgoing responses.
+- `services/`: Contains business logic and orchestrates operations between repositories and controllers.
+- `utils/`: Provides shared utility functions, constants, and helpers used across the codebase.
+- `generated/`: Contains auto-generated code, such as the Prisma client and related files.
+- `index.ts`: The main entry point that initializes and starts the application.
 
 ### Key Technologies
 
@@ -68,7 +79,7 @@ src/
    # Edit .env with your configuration
    ```
 
-4. **Start the database with Docker**
+4. **Start the database with Docker (If you cannot access the remote database connection)**
    ```bash
    npm run docker:start
    # or
@@ -109,12 +120,13 @@ For detailed API documentation, visit the Swagger UI endpoint after starting the
 
 - `npm run dev`: Start development server with hot-reload
 - `npm run build`: Build for production
-- `npm start`: Start production server
+- `npm run start`: Start production server
 - `npm run lint`: Run ESLint
 - `npm run lint:fix`: Fix ESLint errors
 - `npm run typecheck`: Check TypeScript types
 - `npm run docker:start`: Start database container
-- `npm test`: Run tests
+- `npm run test`: Run tests
+- `npm run start:local`: Start Docker and connect to local database
 
 ## 🔧 Development
 
@@ -125,15 +137,6 @@ The project follows strict TypeScript guidelines:
 - ESLint configuration for consistent code style
 - Prettier for code formatting
 
-### Adding New Features
-
-1. Create new entities in `src/entities`
-2. Implement repository layer in `src/repository`
-3. Add business logic in `src/services`
-4. Create controllers in `src/controllers`
-5. Define routes in `src/routes`
-6. Add validation schemas in `src/schemas`
-7. Update Swagger documentation
 
 ## 🐳 Docker Support
 
@@ -162,24 +165,14 @@ The database is automatically initialized using:
 Required environment variables:
 
 ```env
-PORT=3000
-DATABASE_URL=postgresql://user:password@localhost:5432/dbname
-POSTGRES_DB=dbname
-POSTGRES_USER=user
-POSTGRES_PASSWORD=password
+POSTGRES_DB=
+POSTGRES_USER=
+POSTGRES_PASSWORD=
+POSTGRES_HOST=
+POSTGRES_PORT=
+
+DATABASE_URL="postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}?schema=public"
 ```
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
-
-## 📝 License
-
-This project is licensed under the ISC License.
 
 ## 🙏 Acknowledgments
 
