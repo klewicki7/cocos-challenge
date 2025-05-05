@@ -1,11 +1,40 @@
 import { Router } from "express";
-import { getAllInstruments, searchInstruments } from "@/controllers/instruments";
+import {
+  getAllInstruments,
+  searchInstruments,
+} from "@/controllers/instruments";
 
 const router = Router();
 
 /**
  * @swagger
  * /api/instruments:
+ *   get:
+ *     summary: Get all available instruments
+ *     responses:
+ *       200:
+ *         description: List of all instruments
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                   ticker:
+ *                     type: string
+ *                   name:
+ *                     type: string
+ *                   type:
+ *                     type: string
+ */
+router.get("/", (req, res) => getAllInstruments(req, res));
+
+/**
+ * @swagger
+ * /api/instruments/search:
  *   get:
  *     summary: Buscar instrumentos por ticker o nombre
  *     parameters:
@@ -34,9 +63,6 @@ const router = Router();
  *                   type:
  *                     type: string
  */
-// GET /api/instruments?query=...
 router.get("/search", (req, res) => searchInstruments(req, res));
-
-router.get("/", (req, res) => getAllInstruments(req, res));
 
 export default router;

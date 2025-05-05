@@ -23,20 +23,7 @@ export const createOrder = async (params: {
 }) => {
   const { userId, instrumentId, side, type, finalSize, execPrice, price } =
     params;
-  if (side === ORDER_SIDE.CASH_IN || side === ORDER_SIDE.CASH_OUT) {
-    return prisma.orders.create({
-      data: {
-        userid: userId,
-        instrumentid: instrumentId,
-        size: finalSize,
-        price: 1,
-        type: ORDER_TYPE.MARKET,
-        side,
-        status: ORDER_STATUS.FILLED,
-        datetime: new Date(),
-      },
-    });
-  }
+
   if (type === ORDER_TYPE.MARKET) {
     return prisma.orders.create({
       data: {
@@ -51,6 +38,7 @@ export const createOrder = async (params: {
       },
     });
   }
+
   if (type === ORDER_TYPE.LIMIT) {
     if (!price) throw new Error("Price required for LIMIT order");
     return prisma.orders.create({
@@ -66,5 +54,6 @@ export const createOrder = async (params: {
       },
     });
   }
+
   throw new Error("Invalid order type");
 };

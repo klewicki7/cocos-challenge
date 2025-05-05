@@ -3,11 +3,12 @@ import { createOrder } from "@controllers/orders";
 
 const router = Router();
 
+
 /**
  * @swagger
  * /api/orders:
  *   post:
- *     summary: Enviar una orden al mercado
+ *     summary: Create a new order
  *     requestBody:
  *       required: true
  *       content:
@@ -15,28 +16,23 @@ const router = Router();
  *           schema:
  *             type: object
  *             properties:
- *               userId:
- *                 type: integer
  *               instrumentId:
  *                 type: integer
- *               side:
- *                 type: string
- *                 enum: [BUY, SELL, CASH_IN, CASH_OUT]
+ *                 description: ID of the instrument to trade
+ *               quantity:
+ *                 type: integer
+ *                 description: Number of units to trade
  *               type:
  *                 type: string
- *                 enum: [MARKET, LIMIT]
- *               size:
- *                 type: integer
- *                 description: Cantidad de acciones
- *               amount:
- *                 type: number
- *                 description: Monto en pesos
- *               price:
- *                 type: number
- *                 description: Solo para órdenes LIMIT
+ *                 enum: [BUY, SELL]
+ *                 description: Type of order
+ *             required:
+ *               - instrumentId
+ *               - quantity 
+ *               - type
  *     responses:
- *       200:
- *         description: Orden creada
+ *       201:
+ *         description: Order created successfully
  *         content:
  *           application/json:
  *             schema:
@@ -44,24 +40,22 @@ const router = Router();
  *               properties:
  *                 id:
  *                   type: integer
+ *                 instrumentId:
+ *                   type: integer
+ *                 quantity:
+ *                   type: integer
+ *                 type:
+ *                   type: string
  *                 status:
  *                   type: string
- *                 ...
- * /api/orders/{orderId}/cancel:
- *   post:
- *     summary: Cancelar una orden (solo si está en estado NEW)
- *     parameters:
- *       - in: path
- *         name: orderId
- *         required: true
- *         schema:
- *           type: integer
- *         description: ID de la orden
- *     responses:
- *       200:
- *         description: Orden cancelada
+ *                 createdAt:
+ *                   type: string
+ *                   format: date-time
+ *       400:
+ *         description: Invalid request body
+ *       500:
+ *         description: Internal server error
  */
-
 router.post("/", createOrder);
 
 

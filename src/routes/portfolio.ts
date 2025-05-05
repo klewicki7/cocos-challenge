@@ -47,7 +47,6 @@ const router = Router();
  *                       performance:
  *                         type: number
  */
-// GET /api/portfolio/:userId
 router.get("/:userId", getPortfolio);
 
 export default router;

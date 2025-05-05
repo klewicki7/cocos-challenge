@@ -1,4 +1,5 @@
 import { ORDER_SIDE } from "./constants";
+import { calculateShares, calculateCash } from "./functions";
 
 export const calculateOrderSize = (
   size: number | undefined,
@@ -22,21 +23,9 @@ export const calculateFundsAndShares = (
   filledOrders: any[],
   instrumentId: number
 ): OrderFunds => {
-  let cash = 0;
-  let shares = 0;
-  for (const order of filledOrders) {
-    if (order.side === ORDER_SIDE.CASH_IN) cash += order.size ?? 0;
-    if (order.side === ORDER_SIDE.CASH_OUT) cash -= order.size ?? 0;
-    if (order.side === ORDER_SIDE.BUY && order.type !== ORDER_SIDE.CASH_IN)
-      cash -= (order.size ?? 0) * Number(order.price ?? 0);
-    if (order.side === ORDER_SIDE.SELL)
-      cash += (order.size ?? 0) * Number(order.price ?? 0);
-    if (order.instrumentid === instrumentId) {
-      if (order.side === ORDER_SIDE.BUY && order.type !== ORDER_SIDE.CASH_IN)
-        shares += order.size ?? 0;
-      if (order.side === ORDER_SIDE.SELL) shares -= order.size ?? 0;
-    }
-  }
+  const cash = calculateCash(filledOrders);
+  const shares = calculateShares(filledOrders, instrumentId);
+
   return { cash, shares };
 };
 
@@ -48,8 +37,9 @@ export const validateFundsAndShares = (params: {
   shares: number;
 }) => {
   const { side, finalSize, execPrice, cash, shares } = params;
+
   if (side === ORDER_SIDE.BUY && finalSize * (execPrice || 0) > cash) {
-    throw new Error("Insufficient cash");
+    throw new Error("Insufficient funds");
   }
   if (side === ORDER_SIDE.SELL && finalSize > shares) {
     throw new Error("Insufficient shares");

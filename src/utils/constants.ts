@@ -8,8 +8,6 @@ export const ORDER_TYPES = {
 export const ORDER_SIDE = {
   BUY: "BUY",
   SELL: "SELL",
-  CASH_IN: "CASH_IN",
-  CASH_OUT: "CASH_OUT",
 };
 
 export const ORDER_STATUS = {

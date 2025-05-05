@@ -5,23 +5,7 @@ import { MarketData } from "@entities/marketdata";
 import { ORDER_TYPES, ORDER_SIDE } from "./constants";
 import { formatNumberToCurrency } from "./formatters";
 
-/**
- * Calculates the total cash balance based on the order history
- * @param orders List of executed orders
- * @returns Total cash balance
- */
-export const calculateCash = (orders: Order[]): number => {
-  let cash = 0;
-  for (const order of orders) {
-    if (order.side === ORDER_TYPES.CASH_IN) cash += order.size ?? 0;
-    if (order.side === ORDER_TYPES.CASH_OUT) cash -= order.size ?? 0;
-    if (order.side === ORDER_TYPES.BUY && order.type !== ORDER_TYPES.CASH_IN)
-      cash -= (order.size ?? 0) * Number(order.price ?? 0);
-    if (order.side === ORDER_TYPES.SELL)
-      cash += (order.size ?? 0) * Number(order.price ?? 0);
-  }
-  return cash;
-};
+
 
 /**
  * Creates a map of positions with their quantities from order history

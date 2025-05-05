@@ -25,7 +25,6 @@ export const searchInstruments = async (
         { name: { contains: query, mode: "insensitive" } },
       ],
     },
-    take: 20,
     orderBy: { ticker: "asc" },
   });
 };

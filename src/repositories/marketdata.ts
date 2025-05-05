@@ -38,6 +38,7 @@ export const getExecutionPrice = async (
   instrumentId: number
 ): Promise<number | undefined> => {
   if (type === ORDER_TYPE.MARKET) {
+    // TODO: Get the better price from the marketdata table
     const md = await prisma.marketdata.findFirst({
       where: { instrumentid: instrumentId },
       orderBy: { date: "desc" },
