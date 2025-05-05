@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import ordersService from "@/services/orders";
+import { createOrder as createOrderService } from "@services/orders";
 import { createOrderSchema } from "@utils/validation";
 
 export const createOrder = async (
@@ -12,15 +12,11 @@ export const createOrder = async (
       res.status(400).json({ error: "Invalid input", details: error?.errors });
       return;
     }
-    const order = await ordersService.createOrder(data);
+    const order = await createOrderService(data);
     res.json(order);
   } catch (error) {
     res.status(400).json({
       error: error instanceof Error ? error.message : "Error creating order",
     });
   }
-};
-
-export const cancelOrder = (req: Request, res: Response): void => {
-  res.json({ message: "Cancel order endpoint placeholder" });
 };

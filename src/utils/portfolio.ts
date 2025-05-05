@@ -2,6 +2,7 @@ import { Order } from "@entities/order";
 import { PortfolioPosition } from "@entities/portfolio";
 import { Instrument } from "@entities/instrument";
 import { MarketData } from "@entities/marketdata";
+import { ORDER_TYPES, ORDER_SIDE } from "./constants";
 
 /**
  * Calculates the total cash balance based on the order history
@@ -11,11 +12,11 @@ import { MarketData } from "@entities/marketdata";
 export const calculateCash = (orders: Order[]): number => {
   let cash = 0;
   for (const order of orders) {
-    if (order.side === "CASH_IN") cash += order.size ?? 0;
-    if (order.side === "CASH_OUT") cash -= order.size ?? 0;
-    if (order.side === "BUY" && order.type !== "CASH_IN")
+    if (order.side === ORDER_TYPES.CASH_IN) cash += order.size ?? 0;
+    if (order.side === ORDER_TYPES.CASH_OUT) cash -= order.size ?? 0;
+    if (order.side === ORDER_TYPES.BUY && order.type !== ORDER_TYPES.CASH_IN)
       cash -= (order.size ?? 0) * Number(order.price ?? 0);
-    if (order.side === "SELL")
+    if (order.side === ORDER_TYPES.SELL)
       cash += (order.size ?? 0) * Number(order.price ?? 0);
   }
   return cash;
@@ -32,8 +33,8 @@ export const buildPositionsMap = (
   const positionsMap: Record<number, { quantity: number }> = {};
   for (const order of orders) {
     if (
-      order.side === "BUY" &&
-      order.type !== "CASH_IN" &&
+      order.side === ORDER_TYPES.BUY &&
+      order.type !== ORDER_TYPES.CASH_IN &&
       order.instrumentid !== null
     ) {
       positionsMap[order.instrumentid] = positionsMap[order.instrumentid] || {
@@ -41,7 +42,7 @@ export const buildPositionsMap = (
       };
       positionsMap[order.instrumentid].quantity += order.size ?? 0;
     }
-    if (order.side === "SELL" && order.instrumentid !== null) {
+    if (order.side === ORDER_SIDE.SELL && order.instrumentid !== null) {
       positionsMap[order.instrumentid] = positionsMap[order.instrumentid] || {
         quantity: 0,
       };

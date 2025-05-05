@@ -1,12 +1,12 @@
 import { Order } from "@entities/order";
 import { PrismaClient } from "@generated/prisma";
-
+import { ORDER_STATUS } from "@utils/constants";
 
 const prisma = new PrismaClient();
 
 export const fetchFilledOrders = async (userId: number): Promise<Order[]> => {
   const orders = await prisma.orders.findMany({
-    where: { userid: userId, status: "FILLED" },
+    where: { userid: userId, status: ORDER_STATUS.FILLED },
   });
   // Convert Decimal fields to number
   return orders.map((order) => ({

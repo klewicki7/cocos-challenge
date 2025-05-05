@@ -1,3 +1,4 @@
+import { ORDER_TYPE } from "@/utils/constants";
 import { MarketData } from "@entities/marketdata";
 import { PrismaClient } from "@generated/prisma";
 
@@ -29,4 +30,20 @@ export const getMarketDataByInstrumentsIds = async (
         ? Number(md.previousclose)
         : md.previousclose,
   }));
+};
+
+export const getExecutionPrice = async (
+  type: "MARKET" | "LIMIT",
+  price: number | undefined,
+  instrumentId: number
+): Promise<number | undefined> => {
+  if (type === ORDER_TYPE.MARKET) {
+    const md = await prisma.marketdata.findFirst({
+      where: { instrumentid: instrumentId },
+      orderBy: { date: "desc" },
+    });
+    if (!md || !md.close) throw new Error("No market price available");
+    return Number(md.close);
+  }
+  return price;
 };

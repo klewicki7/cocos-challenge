@@ -1,23 +1,15 @@
-import { PrismaClient, instruments } from '@generated/prisma';
+import { Instrument } from "@/entities/instrument";
+import {
+  getInstrumentById as getInstrumentByIdRepository,
+  searchInstruments as searchInstrumentsRepository,
+} from "@repository/instruments";
 
+export const searchInstruments = async (
+  query: string
+): Promise<Instrument[]> => {
+  return await searchInstrumentsRepository(query);
+};
 
-export default class InstrumentsService {
-  private readonly prisma: PrismaClient;
-
-  constructor(prisma: PrismaClient = new PrismaClient()) {
-    this.prisma = prisma;
-  }
-
-  async searchInstruments(query: string): Promise<instruments[]> {
-    return this.prisma.instruments.findMany({
-      where: {
-        OR: [
-          { ticker: { contains: query, mode: 'insensitive' } },
-          { name: { contains: query, mode: 'insensitive' } },
-        ],
-      },
-      take: 20,
-      orderBy: { ticker: 'asc' },
-    });
-  }
-} 
+export const getInstrumentById = async (instrumentId: number) => {
+  return await getInstrumentByIdRepository(instrumentId);
+};

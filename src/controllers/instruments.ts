@@ -1,8 +1,6 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "@generated/prisma";
 import { searchInstrumentsQuerySchema } from "@utils/validation";
-
-const prisma = new PrismaClient();
+import { searchInstruments as searchInstrumentsService } from "@services/instruments";
 
 export const searchInstruments = async (
   req: Request,
@@ -23,16 +21,7 @@ export const searchInstruments = async (
 
     const { query } = data;
 
-    const results = await prisma.instruments.findMany({
-      where: {
-        OR: [
-          { ticker: { contains: query, mode: "insensitive" } },
-          { name: { contains: query, mode: "insensitive" } },
-        ],
-      },
-      take: 20,
-      orderBy: { ticker: "asc" },
-    });
+    const results = await searchInstrumentsService(query);
 
     res.json(results);
   } catch (error) {

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createOrder, cancelOrder } from "@controllers/orders";
+import { createOrder } from "@controllers/orders";
 
 const router = Router();
 
@@ -64,6 +64,5 @@ const router = Router();
 
 router.post("/", createOrder);
 
-router.post("/:orderId/cancel", cancelOrder);
 
 export default router;
