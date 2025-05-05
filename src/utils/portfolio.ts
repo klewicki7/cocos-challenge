@@ -5,8 +5,6 @@ import { MarketData } from "@entities/marketdata";
 import { ORDER_TYPES, ORDER_SIDE } from "./constants";
 import { formatNumberToCurrency } from "./formatters";
 
-
-
 /**
  * Creates a map of positions with their quantities from order history
  * @param orders List of executed orders
@@ -71,10 +69,7 @@ export const buildPortfolioPositions = (
         name: inst.name ?? "",
         type: inst.type ?? "",
         quantity,
-        marketValue: formatNumberToCurrency(marketValue, {
-          locale: "es-AR",
-          currency: "ARS",
-        }),
+        marketValue,
         performance,
       };
     })

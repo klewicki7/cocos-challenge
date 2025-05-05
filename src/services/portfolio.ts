@@ -1,18 +1,19 @@
-import { Portfolio } from "@entities/portfolio";
+import { Portfolio, PortfolioPosition } from "@entities/portfolio";
 import { fetchFilledOrders } from "@/repositories/portfolio";
 import { getInstrumentsByIds } from "@/repositories/instruments";
 import { getMarketDataByInstrumentsIds } from "@/repositories/marketdata";
 import {
-  calculateCash,
   buildPositionsMap,
   buildPortfolioPositions,
   calculateTotalValue,
 } from "@utils/portfolio";
 import { formatNumberToCurrency } from "@/utils/formatters";
+import { calculateCash } from "@/utils/functions";
+import { Order } from "@/entities/order";
 
-export const getPortfolio = async (userId: number): Promise<Portfolio> => {
-  const orders = await fetchFilledOrders(userId);
-  const cash = calculateCash(orders);
+export const getPositions = async (
+  orders: Order[]
+): Promise<PortfolioPosition[]> => {
   const positionsMap = buildPositionsMap(orders);
   const instrumentIds = Object.keys(positionsMap)
     .map(Number)
@@ -24,13 +25,28 @@ export const getPortfolio = async (userId: number): Promise<Portfolio> => {
     marketData,
     positionsMap,
   });
+
+  return positions;
+};
+
+export const getPortfolio = async (userId: number): Promise<Portfolio> => {
+  const orders = await fetchFilledOrders(userId);
+  const cash = calculateCash(orders);
+  const positions = await getPositions(orders);
   const totalValue = calculateTotalValue(cash, positions);
+
   return {
     cash: formatNumberToCurrency(cash, {
       locale: "es-AR",
       currency: "ARS",
     }),
+    positions: positions.map(({ marketValue, ...rest }) => ({
+      ...rest,
+      marketValue: formatNumberToCurrency(Number(marketValue), {
+        locale: "es-AR",
+        currency: "ARS",
+      }),
+    })),
     totalValue,
-    positions,
   };
 };
