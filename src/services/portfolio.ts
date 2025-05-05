@@ -10,6 +10,7 @@ import {
 import { formatNumberToCurrency } from "@/utils/formatters";
 import { calculateCash } from "@/utils/functions";
 import { Order } from "@/entities/order";
+import logger from "@utils/logger";
 
 export const getPositions = async (
   orders: Order[]
@@ -30,23 +31,29 @@ export const getPositions = async (
 };
 
 export const getPortfolio = async (userId: number): Promise<Portfolio> => {
-  const orders = await fetchFilledOrders(userId);
-  const cash = calculateCash(orders);
-  const positions = await getPositions(orders);
-  const totalValue = calculateTotalValue(cash, positions);
+  logger.info("[PortfolioService] Start getPortfolio");
+  try {
+    const orders = await fetchFilledOrders(userId);
+    const cash = calculateCash(orders);
+    const positions = await getPositions(orders);
+    const totalValue = calculateTotalValue(cash, positions);
 
-  return {
-    cash: formatNumberToCurrency(cash, {
-      locale: "es-AR",
-      currency: "ARS",
-    }),
-    positions: positions.map(({ marketValue, ...rest }) => ({
-      ...rest,
-      marketValue: formatNumberToCurrency(Number(marketValue), {
+    return {
+      cash: formatNumberToCurrency(cash, {
         locale: "es-AR",
         currency: "ARS",
       }),
-    })),
-    totalValue,
-  };
+      positions: positions.map(({ marketValue, ...rest }) => ({
+        ...rest,
+        marketValue: formatNumberToCurrency(Number(marketValue), {
+          locale: "es-AR",
+          currency: "ARS",
+        }),
+      })),
+      totalValue,
+    };
+  } catch (err) {
+    logger.error(`[PortfolioService] Error in getPortfolio: ${err}`);
+    throw err;
+  }
 };

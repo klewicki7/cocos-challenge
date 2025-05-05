@@ -4,6 +4,7 @@ import {
   searchInstruments as searchInstrumentsRepository,
   getAllInstruments as getAllInstrumentsRepository,
 } from "@/repositories/instruments";
+import logger from "@utils/logger";
 
 export const searchInstruments = async (
   query: string
@@ -12,9 +13,21 @@ export const searchInstruments = async (
 };
 
 export const getInstrumentById = async (instrumentId: number) => {
-  return await getInstrumentByIdRepository(instrumentId);
+  logger.info("[InstrumentsService] Start getInstrumentById");
+  try {
+    return await getInstrumentByIdRepository(instrumentId);
+  } catch (err) {
+    logger.error(`[InstrumentsService] Error in getInstrumentById: ${err}`);
+    throw err;
+  }
 };
 
 export const getAllInstruments = async (): Promise<Instrument[]> => {
-  return await getAllInstrumentsRepository();
+  logger.info("[InstrumentsService] Start getAllInstruments");
+  try {
+    return await getAllInstrumentsRepository();
+  } catch (err) {
+    logger.error(`[InstrumentsService] Error in getAllInstruments: ${err}`);
+    throw err;
+  }
 };

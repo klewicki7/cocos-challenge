@@ -11,7 +11,6 @@
     "lint:fix": "eslint . --ext .ts --fix",
     "test": "jest",
     "typecheck": "tsc --noEmit",
-    "db:setup": "bash ./setup-db.sh",
     "docker:start": "bash ./start-docker.sh"
   },
   "repository": {
@@ -41,6 +40,7 @@
     "swagger-ui-express": "^5.0.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3",
+    "winston": "^3.17.0",
     "zod": "^3.24.3"
   },
   "devDependencies": {
