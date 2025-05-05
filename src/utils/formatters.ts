@@ -5,5 +5,5 @@ export const formatNumberToCurrency = (
     currency: string;
   }
 ) => {
-  return new Intl.NumberFormat(currency.locale).format(number);
+  return new Intl.NumberFormat(currency.locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(number);
 };
