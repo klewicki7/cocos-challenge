@@ -1,6 +1,6 @@
 export interface Portfolio {
-  cash: number;
-  totalValue: number;
+  cash: number | string;
+  totalValue: number | string;
   positions: PortfolioPosition[];
 }
 
@@ -10,6 +10,6 @@ export interface PortfolioPosition {
   name: string;
   type: string;
   quantity: number;
-  marketValue: number;
+  marketValue: number | string;
   performance: number | null;
 }

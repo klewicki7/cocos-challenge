@@ -29,3 +29,7 @@ export const searchInstruments = async (
     orderBy: { ticker: "asc" },
   });
 };
+
+export const getAllInstruments = async (): Promise<Instrument[]> => {
+  return prisma.instruments.findMany();
+};

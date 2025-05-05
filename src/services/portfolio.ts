@@ -1,13 +1,14 @@
 import { Portfolio } from "@entities/portfolio";
-import { fetchFilledOrders } from "@repository/portfolio";
-import { getInstrumentsByIds } from "@repository/instruments";
-import { getMarketDataByInstrumentsIds } from "@repository/marketdata";
+import { fetchFilledOrders } from "@/repositories/portfolio";
+import { getInstrumentsByIds } from "@/repositories/instruments";
+import { getMarketDataByInstrumentsIds } from "@/repositories/marketdata";
 import {
   calculateCash,
   buildPositionsMap,
   buildPortfolioPositions,
   calculateTotalValue,
 } from "@utils/portfolio";
+import { formatNumberToCurrency } from "@/utils/formatters";
 
 export const getPortfolio = async (userId: number): Promise<Portfolio> => {
   const orders = await fetchFilledOrders(userId);
@@ -25,7 +26,10 @@ export const getPortfolio = async (userId: number): Promise<Portfolio> => {
   });
   const totalValue = calculateTotalValue(cash, positions);
   return {
-    cash,
+    cash: formatNumberToCurrency(cash, {
+      locale: "es-AR",
+      currency: "ARS",
+    }),
     totalValue,
     positions,
   };

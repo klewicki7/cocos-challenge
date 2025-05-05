@@ -1,5 +1,5 @@
-import { Router } from 'express';
-import { searchInstruments } from '@/controllers/instruments';
+import { Router } from "express";
+import { getAllInstruments, searchInstruments } from "@/controllers/instruments";
 
 const router = Router();
 
@@ -35,6 +35,8 @@ const router = Router();
  *                     type: string
  */
 // GET /api/instruments?query=...
-router.get('/', (req, res) => searchInstruments(req, res));
+router.get("/search", (req, res) => searchInstruments(req, res));
 
-export default router; 
+router.get("/", (req, res) => getAllInstruments(req, res));
+
+export default router;

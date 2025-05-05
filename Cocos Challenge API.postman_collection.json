@@ -1,0 +1,166 @@
+{
+	"info": {
+		"_postman_id": "b455d75c-b629-4ff4-a274-a37f92cb6697",
+		"name": "Cocos Challenge API",
+		"description": "Colección de endpoints para la API de Cocos Challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15227942",
+		"_collection_link": "https://martian-astronaut-80079.postman.co/workspace/my-workspace~236ec059-1447-4750-bb6a-df243dffd3ee/collection/15227942-b455d75c-b629-4ff4-a274-a37f92cb6697?action=share&source=collection_link&creator=15227942"
+	},
+	"item": [
+		{
+			"name": "Portfolio",
+			"item": [
+				{
+					"name": "Obtener portfolio de usuario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/portfolio/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"portfolio",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "Enviar orden al mercado",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"userId\": 1,\n  \"instrumentId\": 65,\n  \"side\": \"BUY\",\n  \"type\": \"MARKET\",\n  \"size\": 1000000000000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancelar orden",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/orders/:orderId/cancel",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"orders",
+								":orderId",
+								"cancel"
+							],
+							"variable": [
+								{
+									"key": "orderId",
+									"value": "1",
+									"description": "ID de la orden"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Instruments",
+			"item": [
+				{
+					"name": "Obtener todos los instrumentos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/instruments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"instruments"
+							],
+							"query": [
+								{
+									"key": "query",
+									"value": "GGAL",
+									"description": "Ticker o nombre a buscar",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar instrumentos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/instruments/search?query=GGAL",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"instruments",
+								"search"
+							],
+							"query": [
+								{
+									"key": "query",
+									"value": "GGAL"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

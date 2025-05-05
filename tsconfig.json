@@ -16,13 +16,14 @@
       "@/*": ["src/*"],
       "@controllers/*": ["src/controllers/*"],
       "@entities/*": ["src/entities/*"],
-      "@repository/*": ["src/repository/*"],
+      "@repository/*": ["src/repositories/*"],
       "@routes/*": ["src/routes/*"],
       "@schemas/*": ["src/schemas/*"],
       "@services/*": ["src/services/*"],
       "@utils/*": ["src/utils/*"],
       "@generated/*": ["src/generated/*"],
-      "@prisma/*": ["src/generated/prisma/*"]
+      "@prisma/*": ["src/generated/prisma/*"],
+      
     },
     "typeRoots": ["./node_modules/@types", "./src/types"],
     "sourceMap": true

@@ -3,6 +3,7 @@ import { PortfolioPosition } from "@entities/portfolio";
 import { Instrument } from "@entities/instrument";
 import { MarketData } from "@entities/marketdata";
 import { ORDER_TYPES, ORDER_SIDE } from "./constants";
+import { formatNumberToCurrency } from "./formatters";
 
 /**
  * Calculates the total cash balance based on the order history
@@ -67,7 +68,7 @@ export const buildPortfolioPositions = (
   params: BuildPortfolioPositionsParams
 ): PortfolioPosition[] => {
   const { instruments, marketData, positionsMap } = params;
-  
+
   return instruments
     .map((inst) => {
       const quantity =
@@ -86,7 +87,10 @@ export const buildPortfolioPositions = (
         name: inst.name ?? "",
         type: inst.type ?? "",
         quantity,
-        marketValue,
+        marketValue: formatNumberToCurrency(marketValue, {
+          locale: "es-AR",
+          currency: "ARS",
+        }),
         performance,
       };
     })
@@ -102,6 +106,15 @@ export const buildPortfolioPositions = (
 export const calculateTotalValue = (
   cash: number,
   positions: PortfolioPosition[]
-): number => {
-  return cash + positions.reduce((sum, pos) => sum + pos.marketValue, 0);
-}; 
+): string => {
+  return formatNumberToCurrency(
+    cash +
+      positions.reduce((sum, pos) => {
+        return sum + Number(pos.marketValue) * pos.quantity;
+      }, 0),
+    {
+      locale: "es-AR",
+      currency: "ARS",
+    }
+  );
+};

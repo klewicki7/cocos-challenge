@@ -1,8 +1,8 @@
 import { CreateOrder } from "@entities/order";
-import { getInstrumentById } from "@repository/instruments";
-import { getExecutionPrice } from "@repository/marketdata";
-import { getUserOrdersByStatus } from "@repository/order";
-import { createOrder as createOrderRepository } from "@repository/order";
+import { getInstrumentById } from "@/repositories/instruments";
+import { getExecutionPrice } from "@/repositories/marketdata";
+import { getUserOrdersByStatus } from "@/repositories/order";
+import { createOrder as createOrderRepository } from "@/repositories/order";
 import { calculateFundsAndShares, validateFundsAndShares } from "@utils/order";
 import { ORDER_STATUS } from "@utils/constants";
 import { calculateOrderSize } from "@utils/order";
