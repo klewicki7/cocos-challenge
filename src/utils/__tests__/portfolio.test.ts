@@ -1,5 +1,10 @@
-import { calculateCash, buildPositionsMap, buildPortfolioPositions, calculateTotalValue } from "../portfolio";
+import {
+  buildPositionsMap,
+  buildPortfolioPositions,
+  calculateTotalValue,
+} from "../portfolio";
 import { ORDER_TYPES, ORDER_SIDE } from "../constants";
+import { calculateCash } from "../functions";
 
 describe("calculateCash", () => {
   it("should calculate cash correctly", () => {
@@ -37,10 +42,14 @@ describe("buildPortfolioPositions", () => {
       { instrumentid: 2, close: 200, previousclose: 180 },
     ];
     const positionsMap = { 1: { quantity: 10 }, 2: { quantity: 0 } };
-    const result = buildPortfolioPositions({ instruments, marketData, positionsMap } as any);
+    const result = buildPortfolioPositions({
+      instruments,
+      marketData,
+      positionsMap,
+    } as any);
     expect(result.length).toBe(1);
     expect(result[0].instrumentId).toBe(1);
-    expect(result[0].marketValue).toBe("1.000,00");
+    expect(result[0].marketValue).toBe(1000);
     expect(result[0].performance).toBeCloseTo(11.111, 2);
   });
 });
@@ -54,4 +63,4 @@ describe("calculateTotalValue", () => {
     const result = calculateTotalValue(500, positions as any);
     expect(typeof result).toBe("string");
   });
-}); 
+});

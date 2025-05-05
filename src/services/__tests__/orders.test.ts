@@ -88,7 +88,7 @@ describe("createOrder", () => {
     jest
       .spyOn(orderUtils, "calculateFundsAndShares")
       .mockReturnValue({ cash: 0, shares: 100 });
-    await expect(createOrder(input)).rejects.toThrow("Insufficient cash");
+    await expect(createOrder(input)).rejects.toThrow("Insufficient funds");
   });
 
   it("should throw if insufficient shares for SELL", async () => {

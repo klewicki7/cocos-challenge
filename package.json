@@ -9,7 +9,7 @@
     "build": "tsc",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
-    "test": "jest",
+    "test": "jest --verbose",
     "typecheck": "tsc --noEmit",
     "docker:start": "bash ./start-docker.sh"
   },
