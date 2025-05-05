@@ -1,0 +1,92 @@
+{
+  "info": {
+    "_postman_id": "cocos-challenge-collection-001",
+    "name": "Cocos Challenge API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Colección de endpoints para la API de Cocos Challenge"
+  },
+  "item": [
+    {
+      "name": "Portfolio",
+      "item": [
+        {
+          "name": "Obtener portfolio de usuario",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/portfolio/:userId",
+              "host": ["http://localhost:3000"],
+              "path": ["api", "portfolio", ":userId"],
+              "variable": [
+                { "key": "userId", "value": "1", "description": "ID del usuario" }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "Enviar orden al mercado",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 1,\n  \"instrumentId\": 1,\n  \"side\": \"BUY\",\n  \"type\": \"MARKET\",\n  \"size\": 10,\n  \"amount\": 1000\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/orders",
+              "host": ["http://localhost:3000"],
+              "path": ["api", "orders"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cancelar orden",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/orders/:orderId/cancel",
+              "host": ["http://localhost:3000"],
+              "path": ["api", "orders", ":orderId", "cancel"],
+              "variable": [
+                { "key": "orderId", "value": "1", "description": "ID de la orden" }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Instruments",
+      "item": [
+        {
+          "name": "Buscar instrumentos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/instruments?query=GGAL",
+              "host": ["http://localhost:3000"],
+              "path": ["api", "instruments"],
+              "query": [
+                { "key": "query", "value": "GGAL", "description": "Ticker o nombre a buscar" }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+} 
